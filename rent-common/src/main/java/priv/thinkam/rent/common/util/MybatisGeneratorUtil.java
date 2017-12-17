@@ -11,7 +11,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static team.soth.favorisites.common.util.StringUtil.lineToHump;
+import static priv.thinkam.rent.common.util.StringUtil.lineToHump;
 
 /**
  *
@@ -32,7 +32,7 @@ public class MybatisGeneratorUtil {
  	 */
 	private static String serviceImpl_vm = "/template/ServiceImpl.vm";
 
-	private static final String PROJECT_NAME = "favorisites";
+	private static final String PROJECT_NAME = "rent";
 
 	/**
 	 * 根据模板生成generatorConfig.xml文件
