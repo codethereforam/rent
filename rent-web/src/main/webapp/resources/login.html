@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="login">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <script src="js/angular.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('login', [])
+                .controller('loginCtrl', function ($scope, $http) {
+                    $scope.login = function () {
+                        var data = JSON.stringify({
+                            username: $scope.username,
+                            password: $scope.password,
+                        });
+                        $http.post("/sessions", data)
+                            .then(function (res) {
+                                var result = res.data;
+                                if (result.success === false) {
+                                    $scope.msg = result.data;
+                                    return;
+                                }
+                                var user = result.data;
+                                if (user.role === 0) {
+                                    window.location.href = "web/hello.html";
+                                } else if (user.role === 1) {
+                                    window.location.href = "http://localhost:8866/admin/admin.html";
+                                } else {
+                                    $scope.msg = "系统异常";
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    }
+                });
+        })(window);
+    </script>
+</head>
+<body ng-controller="loginCtrl">
+<div style="text-align: center;color: red;">{{msg}}</div>
+<table align="center" border="1">
+    <tr>
+        <td><label for="username">username:</label></td>
+        <td><input id="username" ng-model="username"/></td>
+    </tr>
+    <tr>
+        <td><label for="password">password:</label></td>
+        <td><input type="password" id="password" ng-model="password"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><input type="button" value="login" ng-click="login()"/></td>
+    </tr>
+</table>
+</body>
+</html>

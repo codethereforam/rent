@@ -15,11 +15,11 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 扫描controller -->
-    <context:component-scan base-package="**.*controller"/>
-    <context:component-scan base-package="**.config"/>
+    <context:component-scan base-package="**.*priv.thinkam.rent.web.controller"/>
+    <context:component-scan base-package="**.priv.thinkam.rent.web.config"/>
 
     <!-- 启动aop注解基于类的代理（这时需要cglib库），如果proxy-target-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理将起作用 -->
-    <aop:config proxy-target-class="true"/>
+    <aop:priv.thinkam.rent.web.config proxy-target-class="true"/>
 
     <mvc:annotation-driven/>
 
