@@ -1,0 +1,2 @@
+mysql无法插入中文
+LAST_INSERT_ID

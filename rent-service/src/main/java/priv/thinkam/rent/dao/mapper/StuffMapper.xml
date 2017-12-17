@@ -101,19 +101,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="priv.thinkam.rent.dao.model.Stuff">
-    insert into stuff (stuff_id, category_id, name, 
-      deposit, rental, status
-      )
-    values (#{stuffId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{deposit,jdbcType=INTEGER}, #{rental,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
-      )
+    <selectKey keyProperty="stuffId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into stuff (category_id, name, deposit, 
+      rental, status)
+    values (#{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{deposit,jdbcType=INTEGER}, 
+      #{rental,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="priv.thinkam.rent.dao.model.Stuff">
+    <selectKey keyProperty="stuffId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into stuff
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="stuffId != null">
-        stuff_id,
-      </if>
       <if test="categoryId != null">
         category_id,
       </if>
@@ -131,9 +132,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="stuffId != null">
-        #{stuffId,jdbcType=INTEGER},
-      </if>
       <if test="categoryId != null">
         #{categoryId,jdbcType=INTEGER},
       </if>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="category" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>category</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script>
+        (function (window) {
+            window.angular.module('category', [])
+                .controller('categoryCtrl', function ($scope, $http) {
+                    $scope.addSubmit = function () {
+                        var data = JSON.stringify({
+                            name: $("#add input").val()
+                        });
+                        $http.post("../categories", data)
+                            .then(function (res) {
+                                var result = res.data;
+                                if (result.success) {
+                                    $scope.categories.push(result.data);
+                                    $scope.msg = "";
+                                } else {
+                                    $scope.msg = res.data.data
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                        $("#add span").show();
+                        $("#add input").hide();
+                        $("#add input").val("");
+                    };
+
+                    $scope.doDel = function (category) {
+                        $http.delete("/categories/" + category.categoryId)
+                            .then(function (res) {
+                                if (res.data.success) {
+                                    $scope.categories.splice($scope.categories.indexOf(category), 1);
+                                } else {
+                                    alert("系统异常");
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    };
+
+                    $http.get('/categories').then(function (response) {
+                        $scope.categories = response.data.data;
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                    /*$scope.doDel = function (user) {
+                        $http.delete("../users/" + user.id)
+                            .then(function () {
+                                $scope.users.splice($scope.users.indexOf(user), 1);
+                            }, function (err) {
+                                alert("err");
+                            });
+                    };
+                    $scope.doPatch = function (id) {
+                        var data = JSON.stringify({
+                            password: document.getElementById("pwd" + id).value
+                        });
+                        $http.patch("../users/" + id, data)
+                            .then(function (response) {
+                            }, function (err) {
+                                alert("err");
+                            });
+                    };*/
+                });
+        })(window);
+
+        jQuery(function ($) {
+
+            function add() {
+                $("#add span").click(function () {
+                    $("#add span").hide();
+                    $("#add input").show();
+                    $("#add input").focus();
+                });
+            }
+
+            $(document).ready(function () {
+                $("#add input").hide();
+                add();
+            });
+        });
+    </script>
+</head>
+<body ng-controller="categoryCtrl">
+<table align="center">
+    <tr>
+        <th>类别</th>
+    </tr>
+    <tr ng-repeat="category in categories">
+        <td ng-dblclick="doDel(category)">{{category.name}}</td>
+    </tr>
+</table>
+<div style="text-align: center;" id="add">
+    <span>+</span><br>
+    <input size="10" ng-model="name" ng-blur="addSubmit()"/>
+</div>
+<div style="text-align: center;color: red;">{{msg}}</div>
+</body>
+</html>

@@ -1,11 +1,11 @@
-package priv.thinkam.rent.service.impl.impl;
+package priv.thinkam.rent.service.impl;
 
 import priv.thinkam.rent.common.annotation.BaseService;
 import priv.thinkam.rent.common.base.BaseServiceImpl;
 import priv.thinkam.rent.dao.mapper.CategoryMapper;
 import priv.thinkam.rent.dao.model.Category;
 import priv.thinkam.rent.dao.model.CategoryExample;
-import priv.thinkam.rent.service.impl.CategoryService;
+import priv.thinkam.rent.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * CategoryService实现
-* Created by thinkam on 17-12-17.
+* Created by thinkam on 17-12-18.
 */
 @Service
 @Transactional

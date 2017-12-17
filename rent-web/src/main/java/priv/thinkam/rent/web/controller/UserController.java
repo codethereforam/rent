@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import priv.thinkam.rent.common.base.Result;
 import priv.thinkam.rent.dao.model.User;
 import priv.thinkam.rent.dao.model.UserExample;
-import priv.thinkam.rent.service.impl.UserService;
+import priv.thinkam.rent.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * 用户登录控制器
  * Created by thinkam on 12/17/17.
  */
 @RestController

@@ -101,19 +101,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="priv.thinkam.rent.dao.model.Item">
-    insert into item (item_id, user_id, stuff_id, 
-      create_time, rent_day, end_time
-      )
-    values (#{itemId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{stuffId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{rentDay,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}
-      )
+    <selectKey keyProperty="itemId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into item (user_id, stuff_id, create_time, 
+      rent_day, end_time)
+    values (#{userId,jdbcType=INTEGER}, #{stuffId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{rentDay,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="priv.thinkam.rent.dao.model.Item">
+    <selectKey keyProperty="itemId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into item
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="itemId != null">
-        item_id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -131,9 +132,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="itemId != null">
-        #{itemId,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>

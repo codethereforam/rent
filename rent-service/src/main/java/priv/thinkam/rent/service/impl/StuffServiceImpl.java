@@ -1,11 +1,11 @@
-package priv.thinkam.rent.service.impl.impl;
+package priv.thinkam.rent.service.impl;
 
 import priv.thinkam.rent.common.annotation.BaseService;
 import priv.thinkam.rent.common.base.BaseServiceImpl;
 import priv.thinkam.rent.dao.mapper.StuffMapper;
 import priv.thinkam.rent.dao.model.Stuff;
 import priv.thinkam.rent.dao.model.StuffExample;
-import priv.thinkam.rent.service.impl.StuffService;
+import priv.thinkam.rent.service.StuffService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * StuffService实现
-* Created by thinkam on 17-12-17.
+* Created by thinkam on 17-12-18.
 */
 @Service
 @Transactional
