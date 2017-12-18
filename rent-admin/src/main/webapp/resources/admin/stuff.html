@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="stuff">
+<head>
+    <meta charset="UTF-8">
+    <title>stuff</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        (function (window) {
+            window.angular.module('stuff', [])
+                .controller('stuffCtrl', function ($scope, $http) {
+                    //获取所有物品
+                    $http.get('/stuff').then(function (response) {
+                        $scope.stuff = response.data.data;
+                        console.debug($scope.stuff);
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                    //获取所有类别 & 生成类别map
+                    $http.get('/categories').then(function (response) {
+                        $scope.categories = response.data.data;
+                        console.debug($scope.categories);
+                        $scope.categoryMap = new Map();
+                        for (var i in $scope.categories) {
+                            $scope.categoryMap.set($scope.categories[i].categoryId, $scope.categories[i].name);
+                        }
+                        console.debug($scope.categoryMap);
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                    //添加物品
+                    $scope.doAdd = function () {
+                        var data = JSON.stringify({
+                            categoryId: $scope.categoryId,
+                            name: $scope.name,
+                            deposit: $scope.deposit,
+                            rental: $scope.rental,
+                            status: $scope.status
+                        });
+                        console.debug(data);
+                        $http.post("/stuff", data)
+                            .then(function (res) {
+                                console.debug(res.data.data);
+                                $scope.stuff.push(res.data.data);
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    }
+                })
+        })(window);
+
+        jQuery(function ($) {
+            //弹出添加框
+            function add() {
+                $("#btnAdd").click(function () {
+                    $("#dialog-form").dialog("open");
+                });
+            }
+
+            $(document).ready(function () {
+                //初始化修改dialog
+                $("#dialog-form").dialog({
+                    autoOpen: false,
+                    height: 300,
+                    width: 350,
+                    modal: true,
+                    buttons: {
+                        "添加": function () {
+                            angular.element(document.querySelector('[ng-controller=stuffCtrl]'))
+                                .scope()
+                                .doAdd();
+                            $(this).dialog("close");
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                add();
+            });
+        });
+    </script>
+</head>
+<body ng-controller="stuffCtrl">
+<div id="dialog-form" title="添加物品">
+    <form>
+        <fieldset>
+            <label>
+                类别名称
+                <select ng-model="categoryId"
+                        ng-options="c.categoryId as c.name
+                        for
+                        c in categories">
+                    <option value="">-- 请选择 --</option>
+                </select>
+            </label><br/>
+            <label for="name">物品名称</label>
+            <input id="name" ng-model="name"/><br/>
+            <label for="deposit">押金</label>
+            <input id="deposit" ng-model="deposit"/><br/>
+            <label for="rental">租金</label>
+            <input id="rental" ng-model="rental"/><br/>
+            <label>
+                状态
+                <input type="radio" ng-model="status" value="0" checked>未租
+                <input type="radio" ng-model="status" value="1" checked>申请租用
+                <input type="radio" ng-model="status" value="2" checked>已租
+            </label>
+        </fieldset>
+    </form>
+</div>
+<div style="text-align: center;">
+    物品管理&nbsp;<button id="btnAdd">添加</button>
+</div>
+<table align="center" border="1">
+    <tr>
+        <th>类别名称</th>
+        <th>物品名称</th>
+        <th>押金</th>
+        <th>租金（rmb/day）</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="s in stuff" align="center">
+        <td>{{categoryMap.get(s.categoryId)}}</td>
+        <td>{{s.name}}</td>
+        <td>{{s.deposit}}</td>
+        <td>{{s.rental}}</td>
+        <td>
+            <div ng-switch="s.status">
+                <div ng-switch-when="0">
+                    未租
+                </div>
+                <div ng-switch-when="1">
+                    申请租用
+                </div>
+                <div ng-switch-when="2">
+                    已租
+                </div>
+            </div>
+        </td>
+        <td>
+            <button>修改</button>&nbsp;<button>删除</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

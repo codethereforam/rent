@@ -45,6 +45,7 @@ public class CategoryController {
 		//插入DB
 		category.setName(name);
 		categoryService.insert(category);
+		//返回添加的对象
 		CategoryExample categoryExample1 = new CategoryExample();
 		categoryExample1.createCriteria().andNameEqualTo(name);
 		Category c = categoryService.selectByExample(categoryExample1).get(0);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="category" xmlns="http://www.w3.org/1999/html">
+<html lang="en" ng-app="category">
 <head>
     <meta charset="UTF-8">
     <title>category</title>
@@ -36,7 +36,7 @@
                             }, function (err) {
                                 alert(err.data);
                             });
-                        $("#add span").show();
+                        $("#add button").show();
                         $("#add input").hide();
                         $("#add input").val("");
                     };
@@ -87,8 +87,8 @@
         jQuery(function ($) {
             //弹出添加框
             function add() {
-                $("#add span").click(function () {
-                    $("#add span").hide();
+                $("#add button").click(function () {
+                    $("#add button").hide();
                     $("#add input").show();
                     $("#add input").focus();
                 });
@@ -126,13 +126,13 @@
     </tr>
     <tr ng-repeat="category in categories">
         <td>
-            <span ng-click="doDel(category)">-</span>&nbsp;
+            <button ng-click="doDel(category)">-</button>&nbsp;
             <span ng-dblclick="doModify(category)">{{category.name}}</span>
         </td>
     </tr>
 </table>
 <div style="text-align: center;" id="add">
-    <span>+</span><br>
+    <button style="width: 70px">+</button><br>
     <input size="10" ng-model="name" ng-blur="addSubmit()"/>
 </div>
 <div style="text-align: center;color: red;">{{msg}}</div>
