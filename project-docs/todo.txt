@@ -1,2 +1,3 @@
 mysql无法插入中文
 LAST_INSERT_ID
+类别下有物品 类别删除出错

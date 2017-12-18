@@ -1,4 +1,4 @@
-package priv.thinkam.rent.admin.controller;
+package priv.thinkam.rent.web.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

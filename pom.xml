@@ -14,7 +14,6 @@
         <module>rent-dao</module>
         <module>rent-service</module>
         <module>rent-web</module>
-        <module>rent-admin</module>
     </modules>
 
     <properties>

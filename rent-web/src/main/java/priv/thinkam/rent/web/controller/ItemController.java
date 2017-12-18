@@ -1,4 +1,4 @@
-package priv.thinkam.rent.admin.controller;
+package priv.thinkam.rent.web.controller;
 
 /**
  * Created by thinkam on 12/17/17.
