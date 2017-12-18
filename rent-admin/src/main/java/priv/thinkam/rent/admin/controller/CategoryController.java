@@ -68,9 +68,20 @@ public class CategoryController {
 	}
 
 	@ApiOperation("修改类别")
-	@PatchMapping("/categories")
-	public Result modify(@RequestBody Category category) {
-
-		return null;
+	@PatchMapping("/categories/{id}")
+	public Result modify(@PathVariable int id, @RequestBody Category category) {
+		//log记录信息
+		logger.debug("method delete get param:id=" + id + "," + category);
+		//判断是否存在
+		CategoryExample categoryExample = new CategoryExample();
+		categoryExample.createCriteria().andNameEqualTo(category.getName());
+		List<Category> categories = categoryService.selectByExample(categoryExample);
+		if(!categories.isEmpty()) {
+			return new Result(false, "该类别已存在");
+		}
+		//update
+		category.setCategoryId(id);
+		categoryService.updateByPrimaryKey(category);
+		return new Result(true, category);
 	}
 }
