@@ -5,16 +5,21 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import priv.thinkam.rent.common.base.Result;
-import priv.thinkam.rent.dao.model.*;
+import priv.thinkam.rent.dao.model.Item;
+import priv.thinkam.rent.dao.model.ItemExample;
+import priv.thinkam.rent.dao.model.Stuff;
+import priv.thinkam.rent.dao.model.User;
 import priv.thinkam.rent.service.ItemService;
 import priv.thinkam.rent.service.StuffService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by thinkam on 12/17/17.
@@ -27,6 +32,13 @@ public class ItemController {
 	private ItemService itemService;
 	@Autowired
 	private StuffService stuffService;
+
+	@ApiOperation("租用清单")
+	@GetMapping("items")
+	public Result list() {
+		List<Item> items = itemService.selectByExample(new ItemExample());
+		return new Result(true, items);
+	}
 
 	@ApiOperation("租用申请")
 	@PostMapping("/items")

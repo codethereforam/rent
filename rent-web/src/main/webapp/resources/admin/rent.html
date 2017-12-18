@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="rent">
 <head>
     <meta charset="UTF-8">
     <title>rent</title>
-</head>
-<body>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        (function (window) {
+            window.angular.module('rent', [])
+                .controller('rentCtrl', function ($scope, $http) {
+                    //获取Users
+                    $http.get('/users').then(function (response) {
+                        console.debug(response.data.data);
+                        var users = response.data.data;
+                        $scope.userMap = new Map();
+                        for (var i in users) {
+                            $scope.userMap.set(users[i].userId, users[i]);
+                        }
+                    }, function (err) {
+                        alert(err.data);
+                    });
 
+                    //获取Stuff
+                    $http.get('/stuff').then(function (response) {
+                        console.debug(response.data.data);
+                        var stuff = response.data.data;
+                        $scope.stuffMap = new Map();
+                        for (var i in stuff) {
+                            $scope.stuffMap.set(stuff[i].stuffId, stuff[i]);
+                        }
+                    }, function (err) {
+                        alert(err.data);
+                    });
+
+                    //获取items
+                    $http.get('/items').then(function (response) {
+                        console.debug(response.data.data);
+                        $scope.items = response.data.data;
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                })
+        })(window);
+    </script>
+</head>
+<body ng-controller="rentCtrl">
+<div style="text-align: center;">
+    租用清单
+</div>
+<table align="center" border="1">
+    <tr>
+        <th>租用者</th>
+        <th>物品名称</th>
+        <th>物品状态</th>
+        <th>租用日期</th>
+        <th>租用天数</th>
+        <th>应还日期</th>
+        <th>归还日期</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="item in items" align="center">
+        <td>{{userMap.get(item.userId).username}}</td>
+        <td>{{stuffMap.get(item.stuffId).name}}</td>
+        <td>
+            <div ng-switch="stuffMap.get(item.stuffId).status">
+                <div ng-switch-when="0">
+                    未租
+                </div>
+                <div ng-switch-when="1">
+                    申请租用
+                </div>
+                <div ng-switch-when="2">
+                    已租
+                </div>
+            </div>
+        </td>
+        <td>{{item.createTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>{{item.rentDay}}</td>
+        <td>?</td>
+        <td>{{item.endTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>
+            <div ng-switch="stuffMap.get(item.stuffId).status">
+                <div ng-switch-when="1">
+                    <button>批准</button>
+                    <button>否定</button>
+                </div>
+                <div ng-switch-when="2">
+                    <button>归还</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

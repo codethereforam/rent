@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import priv.thinkam.rent.common.base.Result;
+import priv.thinkam.rent.dao.model.Item;
+import priv.thinkam.rent.dao.model.ItemExample;
 import priv.thinkam.rent.dao.model.User;
 import priv.thinkam.rent.dao.model.UserExample;
 import priv.thinkam.rent.service.UserService;
@@ -27,6 +29,13 @@ public class UserController {
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
+
+	@ApiOperation("用户列表")
+	@GetMapping("users")
+	public Result list() {
+		List<User> users = userService.selectByExample(new UserExample());
+		return new Result(true, users);
+	}
 
 	@ApiOperation("登录")
 	@PostMapping("/sessions")
