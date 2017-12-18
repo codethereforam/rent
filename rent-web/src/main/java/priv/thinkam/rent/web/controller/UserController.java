@@ -23,6 +23,7 @@ import java.util.List;
 public class UserController {
 	private static final String IS_LOGIN = "is_login";
 	private static final String TRUE = "true";
+	public static final String USER = "user";
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
@@ -55,6 +56,7 @@ public class UserController {
 		}
 		//session记录登录信息
 		session.setAttribute(IS_LOGIN, TRUE);
+		session.setAttribute(USER, u);
 		return new Result(true, u);
 	}
 
@@ -63,6 +65,7 @@ public class UserController {
 	public Result logout(HttpSession session) {
 		//session移除登录信息
 		session.removeAttribute(IS_LOGIN);
+		session.removeAttribute(USER);
 		logger.debug(IS_LOGIN + ":" + session.getAttribute(IS_LOGIN));
 		return new Result(true);
 	}
@@ -73,6 +76,7 @@ public class UserController {
 	public void testLogout(HttpSession session) {
 		//session移除登录信息
 		session.removeAttribute(IS_LOGIN);
+		session.removeAttribute(USER);
 		logger.debug(IS_LOGIN + ":" + session.getAttribute(IS_LOGIN));
 	}
 }
