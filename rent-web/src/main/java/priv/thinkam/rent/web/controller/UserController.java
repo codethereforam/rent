@@ -72,6 +72,7 @@ public class UserController {
 	@ApiOperation("退出登录")
 	@DeleteMapping("/sessions")
 	public Result logout(HttpSession session) {
+		//TODO:判断是否登录
 		//session移除登录信息
 		session.removeAttribute(IS_LOGIN);
 		session.removeAttribute(USER);
@@ -80,12 +81,12 @@ public class UserController {
 	}
 
 	//用于测试
-	@ApiOperation("退出登录")
+	/*@ApiOperation("退出登录")
 	@GetMapping("/logout")
 	public void testLogout(HttpSession session) {
 		//session移除登录信息
 		session.removeAttribute(IS_LOGIN);
 		session.removeAttribute(USER);
 		logger.debug(IS_LOGIN + ":" + session.getAttribute(IS_LOGIN));
-	}
+	}*/
 }
