@@ -88,7 +88,11 @@
         <td>{{item.applyTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
         <td>{{item.createTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
         <td>{{item.rentDay}}</td>
-        <td>?</td>
+        <td>
+            <div ng-if="item.createTime != null">
+                {{item.createTime + 86400000 * item.rentDay | date:'yyyy-MM-dd hh:mm:ss'}}
+            </div>
+        </td>
         <td>{{item.endTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
         <td>
             <div ng-switch="item.status">
