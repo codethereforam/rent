@@ -33,10 +33,13 @@ CREATE TABLE `item` (
   `create_time` datetime DEFAULT NULL COMMENT '租用日期',
   `rent_day` int(10) unsigned NOT NULL COMMENT '租用天数',
   `end_time` datetime DEFAULT NULL COMMENT '归还日期',
+  `apply_time` datetime NOT NULL COMMENT '申请时间',
+  `status` tinyint(3) unsigned NOT NULL COMMENT '状态（0：申请中；1：不通过；2：租用中；3： 已归还）',
   PRIMARY KEY (`item_id`),
   KEY `fk_user_id_idx` (`user_id`),
   KEY `fk_stuff_id_idx` (`stuff_id`),
   CONSTRAINT `fk_stuff_id` FOREIGN KEY (`stuff_id`) REFERENCES `stuff` (`stuff_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='出租项';
+
 

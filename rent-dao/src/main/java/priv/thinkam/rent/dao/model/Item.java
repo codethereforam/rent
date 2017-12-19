@@ -46,6 +46,20 @@ public class Item implements Serializable {
      */
     private Date endTime;
 
+    /**
+     * 申请时间
+     *
+     * @mbg.generated
+     */
+    private Date applyTime;
+
+    /**
+     * 状态（0：申请中；1：不通过；2：租用中；3： 已归还）
+     *
+     * @mbg.generated
+     */
+    private Byte status;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getItemId() {
@@ -96,6 +110,22 @@ public class Item implements Serializable {
         this.endTime = endTime;
     }
 
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -108,6 +138,8 @@ public class Item implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", rentDay=").append(rentDay);
         sb.append(", endTime=").append(endTime);
+        sb.append(", applyTime=").append(applyTime);
+        sb.append(", status=").append(status);
         sb.append("]");
         return sb.toString();
     }
@@ -129,7 +161,9 @@ public class Item implements Serializable {
             && (this.getStuffId() == null ? other.getStuffId() == null : this.getStuffId().equals(other.getStuffId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getRentDay() == null ? other.getRentDay() == null : this.getRentDay().equals(other.getRentDay()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
+            && (this.getApplyTime() == null ? other.getApplyTime() == null : this.getApplyTime().equals(other.getApplyTime()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -142,6 +176,8 @@ public class Item implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getRentDay() == null) ? 0 : getRentDay().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
+        result = prime * result + ((getApplyTime() == null) ? 0 : getApplyTime().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 }

@@ -467,6 +467,126 @@ public class ItemExample implements Serializable {
             addCriterion("end_time not between", value1, value2, "endTime");
             return (Criteria) this;
         }
+
+        public Criteria andApplyTimeIsNull() {
+            addCriterion("apply_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeIsNotNull() {
+            addCriterion("apply_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeEqualTo(Date value) {
+            addCriterion("apply_time =", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotEqualTo(Date value) {
+            addCriterion("apply_time <>", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeGreaterThan(Date value) {
+            addCriterion("apply_time >", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("apply_time >=", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeLessThan(Date value) {
+            addCriterion("apply_time <", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeLessThanOrEqualTo(Date value) {
+            addCriterion("apply_time <=", value, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeIn(List<Date> values) {
+            addCriterion("apply_time in", values, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotIn(List<Date> values) {
+            addCriterion("apply_time not in", values, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeBetween(Date value1, Date value2) {
+            addCriterion("apply_time between", value1, value2, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyTimeNotBetween(Date value1, Date value2) {
+            addCriterion("apply_time not between", value1, value2, "applyTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Byte value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Byte value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Byte value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Byte value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Byte> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Byte> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Byte value1, Byte value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

@@ -33,7 +33,7 @@ public class ItemController {
 	@Autowired
 	private StuffService stuffService;
 
-	@ApiOperation("租用清单")
+	/*@ApiOperation("租用清单")
 	@GetMapping("items")
 	public Result list() {
 		List<Item> items = itemService.selectByExample(new ItemExample());
@@ -58,5 +58,5 @@ public class ItemController {
 		stuff.setStatus((byte) 1);
 		stuffService.updateByPrimaryKey(stuff);
 		return new Result(true);
-	}
+	}*/
 }

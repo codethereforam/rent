@@ -6,7 +6,7 @@ import priv.thinkam.rent.dao.model.CategoryExample;
 
 /**
 * CategoryService接口
-* Created by thinkam on 17-12-18.
+* Created by thinkam on 17-12-19.
 */
 public interface CategoryService extends BaseService<Category, CategoryExample> {
 

@@ -34,7 +34,7 @@ create_date: 2017.12.17
         rent_day（租用天数）
         end_time（归还日期）
         +++
-        applyTime(申请时间)
+        apply_time(申请时间)
         status
             0 申请中
             1 不通过

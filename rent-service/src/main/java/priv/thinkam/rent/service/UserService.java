@@ -6,7 +6,7 @@ import priv.thinkam.rent.dao.model.UserExample;
 
 /**
 * UserService接口
-* Created by thinkam on 17-12-18.
+* Created by thinkam on 17-12-19.
 */
 public interface UserService extends BaseService<User, UserExample> {
 

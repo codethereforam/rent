@@ -6,7 +6,7 @@ import priv.thinkam.rent.dao.model.StuffExample;
 
 /**
 * StuffService接口
-* Created by thinkam on 17-12-18.
+* Created by thinkam on 17-12-19.
 */
 public interface StuffService extends BaseService<Stuff, StuffExample> {
 

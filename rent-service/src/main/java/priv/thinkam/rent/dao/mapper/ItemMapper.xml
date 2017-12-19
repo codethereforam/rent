@@ -8,6 +8,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="rent_day" jdbcType="INTEGER" property="rentDay" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    item_id, user_id, stuff_id, create_time, rent_day, end_time
+    item_id, user_id, stuff_id, create_time, rent_day, end_time, apply_time, status
   </sql>
   <select id="selectByExample" parameterType="priv.thinkam.rent.dao.model.ItemExample" resultMap="BaseResultMap">
     select
@@ -105,9 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into item (user_id, stuff_id, create_time, 
-      rent_day, end_time)
+      rent_day, end_time, apply_time, 
+      status)
     values (#{userId,jdbcType=INTEGER}, #{stuffId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{rentDay,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP})
+      #{rentDay,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="priv.thinkam.rent.dao.model.Item">
     <selectKey keyProperty="itemId" order="AFTER" resultType="java.lang.Integer">
@@ -130,6 +134,12 @@
       <if test="endTime != null">
         end_time,
       </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -146,6 +156,12 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -176,6 +192,12 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +210,9 @@
       stuff_id = #{record.stuffId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       rent_day = #{record.rentDay,jdbcType=INTEGER},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP}
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +235,12 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
@@ -220,7 +250,9 @@
       stuff_id = #{stuffId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       rent_day = #{rentDay,jdbcType=INTEGER},
-      end_time = #{endTime,jdbcType=TIMESTAMP}
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
 </mapper>
