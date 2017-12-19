@@ -33,5 +33,12 @@ create_date: 2017.12.17
         create_time（租用日期）
         rent_day（租用天数）
         end_time（归还日期）
+        +++
+        applyTime(申请时间)
+        status
+            0 申请中
+            1 不通过
+            2 租用中
+            3 已归还
 
 类：

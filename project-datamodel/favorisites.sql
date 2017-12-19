@@ -30,7 +30,7 @@ CREATE TABLE `item` (
   `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '出租项编号',
   `user_id` int(10) unsigned NOT NULL COMMENT '用户编号',
   `stuff_id` int(10) unsigned NOT NULL COMMENT '物品编号',
-  `create_time` datetime NOT NULL COMMENT '租用日期',
+  `create_time` datetime DEFAULT NULL COMMENT '租用日期',
   `rent_day` int(10) unsigned NOT NULL COMMENT '租用天数',
   `end_time` datetime DEFAULT NULL COMMENT '归还日期',
   PRIMARY KEY (`item_id`),
@@ -38,4 +38,5 @@ CREATE TABLE `item` (
   KEY `fk_stuff_id_idx` (`stuff_id`),
   CONSTRAINT `fk_stuff_id` FOREIGN KEY (`stuff_id`) REFERENCES `stuff` (`stuff_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='出租项';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COMMENT='出租项';
+
