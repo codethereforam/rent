@@ -36,15 +36,9 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- session配置 -->
-    <!-- <session-priv.thinkam.rent.web.config>
-         <session-timeout>30</session-timeout>
-     </session-priv.thinkam.rent.web.config>-->
-
     <!-- 欢迎页面 -->
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/login.html</welcome-file>
     </welcome-file-list>
 
     <!-- 错误页面 -->

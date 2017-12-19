@@ -21,9 +21,21 @@
                 });
             }
 
+            //点击刷新界面
+            function refresh(id) {
+                if(id !== "avascript:void(0)") {
+                    var iframeSelectName = "#" + id + " iframe"
+                    $(iframeSelectName).attr('src', $(iframeSelectName).attr('src'));
+                }
+            }
+
             $(document).ready(function () {
                 $("#btnLogout").click(function () {
                     logout();
+                });
+                $(".menu-item").click(function () {
+                    var id = $(this).attr("href").substr(1);
+                    refresh(id);
                 });
             });
         });
@@ -53,14 +65,14 @@
             box-sizing: border-box;
             width: 200px;
             height: 100%;
-            background: #4d5e70 bottom;
+            background: #4b2e7a bottom;
         }
 
         .logoDiv {
             padding-top: 20px;
             padding-bottom: 20px;
             height: 70px;
-            background-color: #354457;
+            background-color: #132149;
             font-size: 17px;
             color: #fff;
             vertical-align: bottom;
@@ -106,7 +118,7 @@
     <div id="left" class="left">
         <div id="logoDiv" class="logoDiv">
             <p id="logoTitle" class="logoTitle">
-                <span style="font-size:18px;">租</span>
+                <span style="font-size:24px;">租</span>
             </p>
         </div>
         <!--<div class="menu-title">菜单管理一</div>-->
