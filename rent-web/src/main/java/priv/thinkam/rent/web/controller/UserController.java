@@ -79,14 +79,4 @@ public class UserController {
 		logger.debug(IS_LOGIN + ":" + session.getAttribute(IS_LOGIN));
 		return new Result(true);
 	}
-
-	//用于测试
-	/*@ApiOperation("退出登录")
-	@GetMapping("/logout")
-	public void testLogout(HttpSession session) {
-		//session移除登录信息
-		session.removeAttribute(IS_LOGIN);
-		session.removeAttribute(USER);
-		logger.debug(IS_LOGIN + ":" + session.getAttribute(IS_LOGIN));
-	}*/
 }

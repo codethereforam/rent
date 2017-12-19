@@ -37,6 +37,16 @@ public class ItemController {
 		return new Result(true, items);
 	}
 
+	@ApiOperation("我的租用清单")
+	@GetMapping("items/mine")
+	public Result myList(HttpSession session) {
+		User user = (User) session.getAttribute(UserController.USER);
+		ItemExample itemExample = new ItemExample();
+		itemExample.createCriteria().andUserIdEqualTo(user.getUserId());
+		List<Item> items = itemService.selectByExample(itemExample);
+		return new Result(true, items);
+	}
+
 	@ApiOperation("租用申请")
 	@PostMapping("/items")
 	public Result add(@RequestBody Item item, HttpSession session) {
