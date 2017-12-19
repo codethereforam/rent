@@ -21,9 +21,21 @@
                 });
             }
 
+            //点击刷新界面
+            function refresh(id) {
+                if(id !== "avascript:void(0)") {
+                    var iframeSelectName = "#" + id + " iframe"
+                    $(iframeSelectName).attr('src', $(iframeSelectName).attr('src'));
+                }
+            }
+
             $(document).ready(function () {
                 $("#btnLogout").click(function () {
                     logout();
+                });
+                $(".menu-item").click(function () {
+                    var id = $(this).attr("href").substr(1);
+                    refresh(id);
                 });
             });
         });
