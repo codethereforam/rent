@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import priv.thinkam.rent.common.base.Result;
 import priv.thinkam.rent.dao.model.Item;
 import priv.thinkam.rent.dao.model.ItemExample;
@@ -33,7 +30,7 @@ public class ItemController {
 	@Autowired
 	private StuffService stuffService;
 
-	/*@ApiOperation("租用清单")
+	@ApiOperation("租用清单")
 	@GetMapping("items")
 	public Result list() {
 		List<Item> items = itemService.selectByExample(new ItemExample());
@@ -49,7 +46,8 @@ public class ItemController {
 		//TODO:事务处理
 		//设置数据
 		item.setUserId(user.getUserId());
-		item.setCreateTime(new Date());
+		item.setApplyTime(new Date());
+		item.setStatus((byte) 0);
 		logger.debug("persist into DB:" + item);
 		//persist into DB
 		itemService.insert(item);
@@ -58,5 +56,44 @@ public class ItemController {
 		stuff.setStatus((byte) 1);
 		stuffService.updateByPrimaryKey(stuff);
 		return new Result(true);
-	}*/
+	}
+
+	@ApiOperation("修改状态")
+	@PutMapping("/items/{id}/status")
+	public Result modifyStatus(@RequestBody Item item, @PathVariable int id) {
+		//log记录信息
+		int status = item.getStatus();
+		logger.debug("method add get param status:" + status + ",id=" + id);
+		//select
+		Item it = itemService.selectByPrimaryKey(id);
+		Stuff stuff = stuffService.selectByPrimaryKey(it.getStuffId());
+		//modify item: createTime status endTime & modify stuff: status
+		switch (status) {
+			//否定
+			case 1:
+				it.setStatus((byte) 1);
+				itemService.updateByPrimaryKey(it);
+				stuff.setStatus((byte) 0);
+				stuffService.updateByPrimaryKey(stuff);
+				break;
+			//批准
+			case 2:
+				it.setStatus((byte) 2);
+				it.setCreateTime(new Date());
+				itemService.updateByPrimaryKey(it);
+				stuff.setStatus((byte) 2);
+				stuffService.updateByPrimaryKey(stuff);
+				break;
+			//归还
+			case 3:
+				it.setStatus((byte) 3);
+				it.setEndTime(new Date());
+				itemService.updateByPrimaryKey(it);
+				stuff.setStatus((byte) 0);
+				stuffService.updateByPrimaryKey(stuff);
+				break;
+			default:
+		}
+		return new Result(true);
+	}
 }
