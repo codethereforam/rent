@@ -35,9 +35,15 @@
 
                     getItems();
 
-                    //modify status
-                    $scope.cancelApply = function (id, status) {
-                        alert();
+                    //cancel apply
+                    $scope.cancelApply = function (id) {
+                        $http.delete('/items/' + id).then(function (response) {
+                            if(response.data.success) {
+                                getItems();
+                            }
+                        }, function (err) {
+                            alert(err.data);
+                        });
                     };
                 })
         })(window);

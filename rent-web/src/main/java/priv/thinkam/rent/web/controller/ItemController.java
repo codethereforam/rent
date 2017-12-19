@@ -37,6 +37,22 @@ public class ItemController {
 		return new Result(true, items);
 	}
 
+	@ApiOperation("删除租用项")
+	@DeleteMapping("items/{id}")
+	public Result delete(@PathVariable int id) {
+		//log
+		logger.debug("method add get param id:" + id);
+		//delete item
+		Item item = itemService.selectByPrimaryKey(id);
+		itemService.deleteByPrimaryKey(id);
+		//TODO:优化更新操作
+		//change stuff status
+		Stuff stuff = stuffService.selectByPrimaryKey(item.getStuffId());
+		stuff.setStatus((byte) 0);
+		stuffService.updateByPrimaryKey(stuff);
+		return new Result(true);
+	}
+
 	@ApiOperation("我的租用清单")
 	@GetMapping("items/mine")
 	public Result myList(HttpSession session) {
