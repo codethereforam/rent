@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import priv.thinkam.rent.common.base.Result;
-import priv.thinkam.rent.dao.model.Item;
-import priv.thinkam.rent.dao.model.ItemExample;
 import priv.thinkam.rent.dao.model.User;
 import priv.thinkam.rent.dao.model.UserExample;
 import priv.thinkam.rent.service.UserService;
