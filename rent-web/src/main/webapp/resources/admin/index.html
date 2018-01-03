@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台首页</title>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <link href="../js/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="../js/bootstrap.min.js"></script>
+    <script>
+        jQuery(function ($) {
+            //退出
+            function logout() {
+                $.ajax({
+                    type: 'delete',
+                    url: "/sessions",
+                    success: function (data) {
+                        if(data.success) {
+                            window.location.href = "/login.html";
+                        }
+                    }
+                });
+            }
+
+            //点击刷新界面
+            function refresh(id) {
+                if(id !== "avascript:void(0)") {
+                    var iframeSelectName = "#" + id + " iframe"
+                    $(iframeSelectName).attr('src', $(iframeSelectName).attr('src'));
+                }
+            }
+
+            $(document).ready(function () {
+                $("#btnLogout").click(function () {
+                    logout();
+                });
+                $(".menu-item").click(function () {
+                    var id = $(this).attr("href").substr(1);
+                    refresh(id);
+                });
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Lato, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.72222;
+            color: #34495e;
+            background-color: #fff;
+        }
+
+        .wrap {
+            min-width: 100%;
+            position: absolute;
+            background: #eff3f6 bottom;
+            min-height: 100%;
+            overflow: hidden;
+        }
+
+        .left {
+            margin-left: 0px;
+            position: absolute;
+            box-sizing: border-box;
+            width: 200px;
+            height: 100%;
+            background: #4d5e70 bottom;
+        }
+
+        .logoDiv {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            height: 70px;
+            background-color: #354457;
+            font-size: 17px;
+            color: #fff;
+            vertical-align: bottom;
+        }
+
+        .logoTitle {
+            margin-left: 15px;
+            line-height: 1.7;
+        }
+
+        .menu-title {
+            margin-left: 15px;
+            color: #828e9a;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .menu-item {
+            padding-left: 15px;
+            line-height: 40px;
+            height: 40px;
+            color: #aab1b7;
+            cursor: pointer;
+        }
+
+        .right {
+            box-sizing: border-box;
+            float: left;
+            padding-left: 200px;
+            overflow-x: hidden;
+            clear: both;
+            color: #717592;
+            min-width: 100%;
+            min-height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <!-- 左边内容 -->
+    <div id="left" class="left">
+        <div id="logoDiv" class="logoDiv">
+            <p id="logoTitle" class="logoTitle">
+                <span style="font-size:24px;">后台管理</span>
+            </p>
+        </div>
+        <!--<div class="menu-title">菜单管理一</div>-->
+        <div class="menu-item" href="#one" data-toggle="tab">
+            类别管理
+        </div>
+        <div class="menu-item" href="#two" data-toggle="tab">
+            物品管理
+        </div>
+        <div class="menu-item" href="#three" data-toggle="tab">
+            租用管理
+        </div>
+        <div class="menu-item" href="javascript:void(0)" id="btnLogout" data-toggle="tab">
+            退出
+        </div>
+    </div>
+    <!-- 右边内容 -->
+    <div id="right" class="tab-content right">
+        <div id="one" class="tab-pane active">
+            <iframe class="if" frameborder="no" style="width:100%;"
+                    src="category.html" scrolling="no" onload="changeFrameHeight()">
+            </iframe>
+        </div>
+        <div id="two" class="tab-pane">
+            <iframe class="if" frameborder="no" style="width:100%;"
+                    src="stuff.html" scrolling="no" onload="changeFrameHeight()">
+            </iframe>
+        </div>
+        <div id="three" class="tab-pane">
+            <iframe class="if" frameborder="no" style="width:100%;"
+                    src="rent.html" scrolling="no" onload="changeFrameHeight()">
+            </iframe>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function changeFrameHeight() {
+        $(".if").height(document.documentElement.clientHeight);
+    }
+
+    window.onresize = function () {
+        changeFrameHeight();
+    }
+</script>
+</html>

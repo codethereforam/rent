@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="item">
+<head>
+    <meta charset="UTF-8">
+    <title>我的租用清单</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        (function (window) {
+            window.angular.module('item', [])
+                .controller('itemCtrl', function ($scope, $http) {
+                    //获取Stuff
+                    $http.get('/stuff').then(function (response) {
+                        console.debug(response.data.data);
+                        var stuff = response.data.data;
+                        $scope.stuffMap = new Map();
+                        for (var i in stuff) {
+                            $scope.stuffMap.set(stuff[i].stuffId, stuff[i]);
+                        }
+                    }, function (err) {
+                        alert(err.data);
+                    });
+
+                    //获取items
+                    function getItems() {
+                        $http.get('/items/mine').then(function (response) {
+                            console.debug(response.data.data);
+                            $scope.items = response.data.data;
+                        }, function (err) {
+                            alert(err.data);
+                        });
+                    }
+
+                    getItems();
+
+                    //cancel apply
+                    $scope.cancelApply = function (id) {
+                        $http.delete('/items/' + id).then(function (response) {
+                            if (response.data.success) {
+                                getItems();
+                            }
+                        }, function (err) {
+                            alert(err.data);
+                        });
+                    };
+                })
+        })(window);
+    </script>
+</head>
+<body ng-controller="itemCtrl">
+<div style="text-align: center;">
+    我的租用清单
+</div>
+<table align="center" border="1">
+    <tr>
+        <th>物品名称</th>
+        <th>申请日期</th>
+        <th>租用日期</th>
+        <th>租用天数</th>
+        <th>应还日期</th>
+        <th>归还日期</th>
+        <th>租用项状态</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="item in items" align="center">
+        <td>{{stuffMap.get(item.stuffId).name}}</td>
+        <td>{{item.applyTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>{{item.createTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>{{item.rentDay}}</td>
+        <td>
+            <div ng-if="item.createTime != null">
+                {{item.createTime + 86400000 * item.rentDay | date:'yyyy-MM-dd hh:mm:ss'}}
+            </div>
+        </td>
+        <td>{{item.endTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>
+            <div ng-switch="item.status">
+                <div ng-switch-when="0">申请中</div>
+                <div ng-switch-when="1">不通过</div>
+                <div ng-switch-when="2">租用中</div>
+                <div ng-switch-when="3">已归还</div>
+            </div>
+        </td>
+        <td>
+            <div ng-if="item.status == 0">
+                <button ng-click="cancelApply(item.itemId)">取消申请</button>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

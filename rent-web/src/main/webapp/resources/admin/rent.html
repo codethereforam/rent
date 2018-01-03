@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="rent">
+<head>
+    <meta charset="UTF-8">
+    <title>rent</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        (function (window) {
+            window.angular.module('rent', [])
+                .controller('rentCtrl', function ($scope, $http) {
+                    //获取Users
+                    $http.get('/users').then(function (response) {
+                        console.debug(response.data.data);
+                        var users = response.data.data;
+                        $scope.userMap = new Map();
+                        for (var i in users) {
+                            $scope.userMap.set(users[i].userId, users[i]);
+                        }
+                    }, function (err) {
+                        alert(err.data);
+                    });
+
+                    //获取Stuff
+                    $http.get('/stuff').then(function (response) {
+                        console.debug(response.data.data);
+                        var stuff = response.data.data;
+                        $scope.stuffMap = new Map();
+                        for (var i in stuff) {
+                            $scope.stuffMap.set(stuff[i].stuffId, stuff[i]);
+                        }
+                    }, function (err) {
+                        alert(err.data);
+                    });
+
+                    //获取items
+                    function getItems() {
+                        $http.get('/items').then(function (response) {
+                            console.debug(response.data.data);
+                            $scope.items = response.data.data;
+                        }, function (err) {
+                            alert(err.data);
+                        });
+                    }
+
+                    getItems();
+
+                    //modify status
+                    $scope.modifyStatus = function (id, status) {
+                        var data = JSON.stringify({
+                            status: status
+                        });
+                        $http.put("/items/" + id + "/status", data)
+                            .then(function (res) {
+                                console.debug(res.data.success);
+                                if (res.data.success) {
+                                    getItems();
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    };
+                })
+        })(window);
+    </script>
+</head>
+<body ng-controller="rentCtrl">
+<div style="text-align: center;">
+    租用清单
+</div>
+<table align="center" border="1">
+    <tr>
+        <th>租用者</th>
+        <th>物品名称</th>
+        <th>申请日期</th>
+        <th>租用日期</th>
+        <th>租用天数</th>
+        <th>应还日期</th>
+        <th>归还日期</th>
+        <th>租用项状态</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="item in items" align="center">
+        <td>{{userMap.get(item.userId).username}}</td>
+        <td>{{stuffMap.get(item.stuffId).name}}</td>
+        <td>{{item.applyTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>{{item.createTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>{{item.rentDay}}</td>
+        <td>
+            <div ng-if="item.createTime != null">
+                {{item.createTime + 86400000 * item.rentDay | date:'yyyy-MM-dd hh:mm:ss'}}
+            </div>
+        </td>
+        <td>{{item.endTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
+        <td>
+            <div ng-switch="item.status">
+                <div ng-switch-when="0">申请中</div>
+                <div ng-switch-when="1">不通过</div>
+                <div ng-switch-when="2">租用中</div>
+                <div ng-switch-when="3">已归还</div>
+            </div>
+        </td>
+        <td>
+            <div ng-switch="item.status">
+                <div ng-switch-when="0">
+                    <button ng-click="modifyStatus(item.itemId, 2)">批准</button>
+                    <button ng-click="modifyStatus(item.itemId, 1)">否定</button>
+                </div>
+                <div ng-switch-when="1" ><!--不通过--></div>
+                <div ng-switch-when="2">
+                    <button ng-click="modifyStatus(item.itemId, 3)">归还</button>
+                </div>
+                <div ng-switch-when="3"><!--已归还--></div>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

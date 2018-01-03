@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="stuff">
+<head>
+    <meta charset="UTF-8">
+    <title>stuff</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        var stuffId;
+        (function (window) {
+            window.angular.module('stuff', [])
+                .controller('stuffCtrl', function ($scope, $http) {
+                    //获取所有物品
+                    $http.get('/stuff').then(function (response) {
+                        $scope.stuff = response.data.data;
+                        for (var i = $scope.stuff.length - 1; i >= 0; i--) {
+                            if ($scope.stuff[i].status !== 0) {
+                                $scope.stuff.splice(i, 1);
+                            }
+                        }
+                        console.debug($scope.stuff);
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                    //获取所有类别 & 生成类别map
+                    $http.get('/categories').then(function (response) {
+                        $scope.categories = response.data.data;
+                        console.debug($scope.categories);
+                        $scope.categoryMap = new Map();
+                        for (var i in $scope.categories) {
+                            $scope.categoryMap.set($scope.categories[i].categoryId, $scope.categories[i].name);
+                        }
+                        console.debug($scope.categoryMap);
+                    }, function (err) {
+                        alert(err.data);
+                    });
+                    //提交租用申请
+                    $scope.rentSubmit = function () {
+                        var data = JSON.stringify({
+                            stuffId: stuffId,
+                            rentDay: $scope.rentDay
+                        });
+                        console.debug(data);
+                        $http.post("/items", data)
+                            .then(function (res) {
+                                //页面移除申请的stuff
+                                for(var i in $scope.stuff) {
+                                    if($scope.stuff[i].stuffId === stuffId) {
+                                        $scope.stuff.splice(i, 1);
+                                    }
+                                }
+                                console.debug(res.data.success);
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    };
+
+                    $scope.rent = function (id) {
+                        stuffId = id;
+                        //弹出租用框
+                        $("#dialog-form").dialog("open");
+                    };
+                })
+        })(window);
+
+        jQuery(function ($) {
+            $(document).ready(function () {
+                //初始化修改dialog
+                $("#dialog-form").dialog({
+                    autoOpen: false,
+                    height: 150,
+                    width: 250,
+                    modal: true,
+                    buttons: {
+                        "租用": function () {
+                            angular.element(document.querySelector('[ng-controller=stuffCtrl]'))
+                                .scope()
+                                .rentSubmit();
+                            $(this).dialog("close");
+                        },
+                        "取消": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body ng-controller="stuffCtrl">
+<div id="dialog-form">
+    <label for="rentDay">租用天数</label><input id="rentDay" ng-model="rentDay" size="10">
+</div>
+<div style="text-align: center;">
+    可租物品
+</div>
+<table align="center" border="1">
+    <tr>
+        <th>类别名称</th>
+        <th>物品名称</th>
+        <th>押金</th>
+        <th>租金（rmb/day）</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="s in stuff" align="center">
+        <td>{{categoryMap.get(s.categoryId)}}</td>
+        <td>{{s.name}}</td>
+        <td>{{s.deposit}}</td>
+        <td>{{s.rental}}</td>
+        <td>
+            <div ng-switch="s.status">
+                <div ng-switch-when="0">
+                    未租
+                </div>
+                <div ng-switch-when="1">
+                    申请租用
+                </div>
+                <div ng-switch-when="2">
+                    已租
+                </div>
+            </div>
+        </td>
+        <td>
+            <button class="btnRent" ng-click="rent(s.stuffId)">租用</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

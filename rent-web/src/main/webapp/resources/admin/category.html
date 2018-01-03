@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="category">
+<head>
+    <meta charset="UTF-8">
+    <title>category</title>
+    <script src="../js/angular.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../js/jquery-ui.min.css">
+    <script>
+        var modify_category;
+        (function (window) {
+            window.angular.module('category', [])
+                .controller('categoryCtrl', function ($scope, $http) {
+                    //展现categories
+                    $http.get('/categories').then(function (response) {
+                        $scope.categories = response.data.data;
+                    }, function (err) {
+                        alert(err.data);
+                    });
+
+                    //提交添加请求
+                    $scope.addSubmit = function () {
+                        var data = JSON.stringify({
+                            name: $("#add input").val()
+                        });
+                        $http.post("/categories", data)
+                            .then(function (res) {
+                                var result = res.data;
+                                if (result.success) {
+                                    $scope.categories.push(result.data);
+                                    $scope.msg = "";
+                                } else {
+                                    $scope.msg = res.data.data
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                        $("#add button").show();
+                        $("#add input").hide();
+                        $("#add input").val("");
+                    };
+
+                    //提交删除请求
+                    $scope.doDel = function (category) {
+                        $http.delete("/categories/" + category.categoryId)
+                            .then(function (res) {
+                                if (res.data.success) {
+                                    $scope.categories.splice($scope.categories.indexOf(category), 1);
+                                } else {
+                                    $scope.msg = "系统异常";
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    };
+
+                    //弹出修改dialog
+                    $scope.doModify = function (category) {
+                        modify_category = category;
+                        $("#dialog-form").dialog("open");
+                        $("#fixName").val(category.name);
+                    };
+
+                    //提交修改请求
+                    $scope.modifySubmit = function (id, name) {
+                        var data = JSON.stringify({
+                            name: name
+                        });
+                        $http.patch("/categories/" + id, data)
+                            .then(function (res) {
+                                if (res.data.success) {
+                                    $scope.categories.splice($scope.categories.indexOf(modify_category), 1,
+                                        res.data.data);
+                                    $scope.msg = "";
+                                } else {
+                                    $scope.msg = res.data.data;
+                                }
+                            }, function (err) {
+                                alert(err.data);
+                            });
+                    };
+
+                });
+        })(window);
+
+        jQuery(function ($) {
+            //弹出添加框
+            function add() {
+                $("#add button").click(function () {
+                    $("#add button").hide();
+                    $("#add input").show();
+                    $("#add input").focus();
+                });
+            }
+
+            $(document).ready(function () {
+                $("#add input").hide();
+                //初始化修改dialog
+                $("#dialog-form").dialog({
+                    autoOpen: false,
+                    height: 160,
+                    width: 150,
+                    modal: true,
+                    buttons: {
+                        "modify": function () {
+                            angular.element(document.querySelector('[ng-controller=categoryCtrl]'))
+                                .scope()
+                                .modifySubmit(modify_category.categoryId, $("#fixName").val());
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                add();
+            });
+        });
+    </script>
+</head>
+<body ng-controller="categoryCtrl">
+<div id="dialog-form">
+    <input id="fixName" size="10">
+</div>
+<table align="center">
+    <tr>
+        <th>类别</th>
+    </tr>
+    <tr ng-repeat="category in categories">
+        <td>
+            <button ng-click="doDel(category)">-</button>&nbsp;
+            <span ng-dblclick="doModify(category)">{{category.name}}</span>
+        </td>
+    </tr>
+</table>
+<div style="text-align: center;" id="add">
+    <button style="width: 70px">+</button><br>
+    <input size="10" ng-model="name" ng-blur="addSubmit()"/>
+</div>
+<div style="text-align: center;color: red;">{{msg}}</div>
+</body>
+</html>

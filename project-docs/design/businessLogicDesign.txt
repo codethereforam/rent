@@ -1,0 +1,44 @@
+subject： 业务逻辑设计
+description：类 & 数据库设计
+create_date: 2017.12.17
+
+数据库：
+    user:
+        user_id
+        username
+        password
+        role
+            0 普通用户
+            1 管理员
+
+    category
+        category_id
+        name
+
+    stuff（物品）
+        stuff_id
+        category_id
+        name
+        deposit（押金）
+        rental（租金 rmb/day）
+        status
+            0 未租
+            1 申请租用
+            2 已租
+
+    item（出租的一项物品）
+        item_id
+        user_id
+        stuff_id
+        create_time（租用日期）
+        rent_day（租用天数）
+        end_time（归还日期）
+        +++
+        apply_time(申请时间)
+        status
+            0 申请中
+            1 不通过
+            2 租用中
+            3 已归还
+
+类：
