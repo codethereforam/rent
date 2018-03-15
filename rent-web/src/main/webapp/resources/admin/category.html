@@ -48,7 +48,7 @@
                                 if (res.data.success) {
                                     $scope.categories.splice($scope.categories.indexOf(category), 1);
                                 } else {
-                                    $scope.msg = "系统异常";
+                                    $scope.msg = res.data.data;
                                 }
                             }, function (err) {
                                 alert(err.data);

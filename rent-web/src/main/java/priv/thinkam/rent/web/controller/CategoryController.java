@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import priv.thinkam.rent.common.base.Result;
 import priv.thinkam.rent.dao.model.Category;
 import priv.thinkam.rent.dao.model.CategoryExample;
+import priv.thinkam.rent.dao.model.StuffExample;
 import priv.thinkam.rent.service.CategoryService;
+import priv.thinkam.rent.service.StuffService;
 
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class CategoryController {
 	private static Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private StuffService stuffService;
 
 	@ApiOperation("添加类别")
 	@PostMapping("/categories")
@@ -64,6 +69,13 @@ public class CategoryController {
 	public Result delete(@PathVariable int id) {
 		//log记录信息
 		logger.debug("method delete get param:id=" + id);
+		// 判断该该类别下有没有物品
+		StuffExample stuffExample = new StuffExample();
+		stuffExample.createCriteria().andCategoryIdEqualTo(id);
+		if (stuffService.selectByExample(stuffExample).size() > 0) {
+			return new Result(false, "该类别下有物品，无法删除");
+		}
+		// delete
 		categoryService.deleteByPrimaryKey(id);
 		return new Result(true);
 	}

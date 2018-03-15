@@ -28,10 +28,14 @@ public class Md5Util {
             int j = md.length;
 			char[] str = new char[j * 2];
             int k = 0;
-            for (int i = 0; i < j; i++) {   //  i = 0
-                byte byte0 = md[i];  //95
-                str[k++] = md5String[byte0 >>> 4 & 0xf];    //    5
-                str[k++] = md5String[byte0 & 0xf];   //   F
+			//  i = 0
+            for (int i = 0; i < j; i++) {
+				//95
+                byte byte0 = md[i];
+				//    5
+                str[k++] = md5String[byte0 >>> 4 & 0xf];
+				//   F
+                str[k++] = md5String[byte0 & 0xf];
             }
 
             //返回经过加密后的字符串

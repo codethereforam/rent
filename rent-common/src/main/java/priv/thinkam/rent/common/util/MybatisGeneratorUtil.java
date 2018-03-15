@@ -78,7 +78,7 @@ public class MybatisGeneratorUtil {
 			List<Map> result = jdbcUtil.selectByParams(sql, null);
 			for (Map map : result) {
 				System.out.println(map.get("TABLE_NAME"));
-				table = new HashMap<>();
+				table = new HashMap<>(2);
 				table.put("table_name", map.get("TABLE_NAME"));
 				table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
 				tables.add(table);
@@ -94,7 +94,7 @@ public class MybatisGeneratorUtil {
 			context.put("targetProject_sqlMap", targetProjectSqlMap);
 			context.put("last_insert_id_tables", lastInsertIdTables);
 			VelocityUtil.generate(generatorConfig_vm, generatorconfigXml, context);
-			// 删除dao模块旧代码
+			/// 删除dao模块旧代码。慎重开启，自己添加的代码会丢失。
  			/*
  			deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/model"));
 			deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/mapper"));

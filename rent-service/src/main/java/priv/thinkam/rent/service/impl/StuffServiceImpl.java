@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @BaseService
 public class StuffServiceImpl extends BaseServiceImpl<StuffMapper, Stuff, StuffExample> implements StuffService {
 
-    private static Logger _log = LoggerFactory.getLogger(StuffServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(StuffServiceImpl.class);
 
     @Autowired
     StuffMapper stuffMapper;

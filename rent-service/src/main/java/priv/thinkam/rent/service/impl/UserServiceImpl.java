@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @BaseService
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User, UserExample> implements UserService {
 
-    private static Logger _log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserMapper userMapper;

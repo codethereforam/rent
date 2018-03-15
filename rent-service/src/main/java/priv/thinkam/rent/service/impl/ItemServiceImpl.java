@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @BaseService
 public class ItemServiceImpl extends BaseServiceImpl<ItemMapper, Item, ItemExample> implements ItemService {
 
-    private static Logger _log = LoggerFactory.getLogger(ItemServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
     @Autowired
     ItemMapper itemMapper;
