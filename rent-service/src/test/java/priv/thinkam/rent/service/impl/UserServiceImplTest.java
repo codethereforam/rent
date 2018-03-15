@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import priv.thinkam.rent.dao.model.User;
 import priv.thinkam.rent.dao.model.UserExample;
 import priv.thinkam.rent.service.UserService;
 
@@ -27,5 +28,15 @@ public class UserServiceImplTest {
 	@Test
 	public void testSelectByExample() {
 		userService.selectByExample(new UserExample()).forEach(System.out::println);
+	}
+
+	@Test
+	public void testInsert() {
+		User user = new User();
+		user.setUsername("u");
+		user.setPassword("p");
+		user.setRole((byte) 0);
+		userService.insert(user);
+		System.out.println(user.getUserId());
 	}
 }

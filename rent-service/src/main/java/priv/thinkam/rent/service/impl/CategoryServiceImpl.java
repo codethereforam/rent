@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @BaseService
 public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Category, CategoryExample> implements CategoryService {
 
-    private static Logger _log = LoggerFactory.getLogger(CategoryServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     CategoryMapper categoryMapper;

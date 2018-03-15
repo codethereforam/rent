@@ -45,7 +45,6 @@ public class ItemController {
 		//delete item
 		Item item = itemService.selectByPrimaryKey(id);
 		itemService.deleteByPrimaryKey(id);
-		//TODO:优化更新操作
 		//change stuff status
 		Stuff stuff = stuffService.selectByPrimaryKey(item.getStuffId());
 		stuff.setStatus((byte) 0);
